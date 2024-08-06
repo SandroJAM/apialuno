@@ -11,11 +11,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.projeto.apialuno.modelo.Aluno;
+import br.com.projeto.apialuno.repositorio.Repositorio;
 import br.com.projeto.apialuno.servico.Servico;
 
 @RestController
 public class Controle {
 
+    @Autowired
+    private Repositorio acao;
+    
     @Autowired
     private Servico servico;
 
@@ -32,6 +36,11 @@ public class Controle {
     @GetMapping("/apiAluno/{codigo}")
     public ResponseEntity<?> consultarPeloCodigo(@PathVariable int codigo){
         return servico.consultarPeloCodigo(codigo);
+    }
+
+    @GetMapping("/apiAluno/contarRegistros") 
+    public long contarRegistros(){
+        return acao.count();
     }
 
     @PutMapping("/apiAluno")
