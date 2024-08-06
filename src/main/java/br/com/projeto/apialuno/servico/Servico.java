@@ -47,7 +47,7 @@ public class Servico {
     public ResponseEntity<?> consultarPeloCodigo(int codigo) {
 
         if (acao.countByCodigo(codigo) == 0) {
-            mensagem.setMensagem("Não foi encontradp nenhum Aluno!");
+            mensagem.setMensagem("Não foi encontrado nenhum Aluno!");
             return new ResponseEntity<>(mensagem, HttpStatus.BAD_REQUEST);
         } else {
             return new ResponseEntity<>(acao.findByCodigo(codigo), HttpStatus.OK);
