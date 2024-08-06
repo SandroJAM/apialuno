@@ -18,19 +18,62 @@ public class Servico {
     @Autowired
     private Repositorio acao;
 
-    public ResponseEntity<?> inserir(Aluno objAluno){
-        if(objAluno.getNome().equals("")){
+    // Método para inserir Alunos
+    public ResponseEntity<?> inserir(Aluno objAluno) {
+
+        if (objAluno.getNome().equals("")) {
             mensagem.setMensagem("O nome do Aluno precisa ser preenchido!");
             return new ResponseEntity<>(mensagem, HttpStatus.BAD_REQUEST);
-        }else if(objAluno.getNota1() < 0){
+        } else if (objAluno.getNota1() < 0) {
             mensagem.setMensagem("Informe uma Nota válida!");
             return new ResponseEntity<>(mensagem, HttpStatus.BAD_REQUEST);
-        }else if(objAluno.getNota2() < 0){
+        } else if (objAluno.getNota2() < 0) {
             mensagem.setMensagem("Informe uma Nota válida!");
             return new ResponseEntity<>(mensagem, HttpStatus.BAD_REQUEST);
-        }else{
+        } else {
             return new ResponseEntity<>(acao.save(objAluno), HttpStatus.OK);
         }
+
     }
-    
+
+    // Método para consultar Alunos
+    public ResponseEntity<?> consultar() {
+
+        return new ResponseEntity<>(acao.findAll(), HttpStatus.OK);
+
+    }
+
+    // Método para consultar Aluno através do código
+    public ResponseEntity<?> consultarPeloCodigo(int codigo) {
+
+        if (acao.countByCodigo(codigo) == 0) {
+            mensagem.setMensagem("Não foi encontradp nenhum Aluno!");
+            return new ResponseEntity<>(mensagem, HttpStatus.BAD_REQUEST);
+        } else {
+            return new ResponseEntity<>(acao.findByCodigo(codigo), HttpStatus.OK);
+        }
+
+    }
+
+    // Método para inserir Alunos
+    public ResponseEntity<?> editar(Aluno objAluno) {
+
+        if(acao.countByCodigo(objAluno.getCodigo()) == 0){
+            mensagem.setMensagem("O código informado não existe!");
+            return new ResponseEntity<>(mensagem, HttpStatus.NOT_FOUND);
+        }else if (objAluno.getNome().equals("")) {
+            mensagem.setMensagem("O nome do Aluno precisa ser preenchido!");
+            return new ResponseEntity<>(mensagem, HttpStatus.BAD_REQUEST);
+        } else if (objAluno.getNota1() < 0) {
+            mensagem.setMensagem("Informe uma Nota válida!");
+            return new ResponseEntity<>(mensagem, HttpStatus.BAD_REQUEST);
+        } else if (objAluno.getNota2() < 0) {
+            mensagem.setMensagem("Informe uma Nota válida!");
+            return new ResponseEntity<>(mensagem, HttpStatus.BAD_REQUEST);
+        } else {
+            return new ResponseEntity<>(acao.save(objAluno), HttpStatus.OK);
+        }
+
+    }
+
 }

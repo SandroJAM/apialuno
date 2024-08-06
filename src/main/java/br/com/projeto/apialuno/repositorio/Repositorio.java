@@ -7,5 +7,6 @@ import br.com.projeto.apialuno.modelo.Aluno;
 
 @Repository
 public interface Repositorio extends CrudRepository<Aluno, Integer>{
-    
+    int countByCodigo(int codigo);
+    Aluno findByCodigo(int codigo);
 }
