@@ -55,7 +55,7 @@ public class Servico {
 
     }
 
-    // Método para inserir Alunos
+    // Método para editar Alunos
     public ResponseEntity<?> editar(Aluno objAluno) {
 
         if(acao.countByCodigo(objAluno.getCodigo()) == 0){
@@ -72,6 +72,22 @@ public class Servico {
             return new ResponseEntity<>(mensagem, HttpStatus.BAD_REQUEST);
         } else {
             return new ResponseEntity<>(acao.save(objAluno), HttpStatus.OK);
+        }
+
+    }
+
+    // Método para deletar Aluno
+    public ResponseEntity<?> deletar(int codigo){
+
+        if(acao.countByCodigo(codigo) == 0){
+            mensagem.setMensagem("O código informado não existe!");
+            return new ResponseEntity<>(mensagem, HttpStatus.NOT_FOUND);
+        }else{
+            Aluno objAluno = acao.findByCodigo(codigo);
+            acao.delete(objAluno);
+
+            mensagem.setMensagem("Aluno removido com sucesso!");
+            return new ResponseEntity<>(mensagem, HttpStatus.OK);
         }
 
     }
